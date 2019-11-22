@@ -1,0 +1,25 @@
+server:
+  port: 8090
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+
+
+  datasource:
+    url: jdbc:mysql://127.0.0.1/security?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+
+mybatis:
+  mapper-locations: classpath:mapping/*.xml
+  type-aliases-package: com.security.demo.Entity
+
+#showSql
+logging:
+  level:
+    com:
+      example:
+        mapper : debug
