@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -16,11 +17,19 @@ public class DemoController {
     @Autowired
     private UserService userService;
 
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+
     @RequestMapping("/hello")
     @ResponseBody
     public Response hello(){
         return new Response("200","hello!");
     }
+
 
     //该方法我们在security配置类中指定了admin角色才可以访问
     //当然也可以直接添加@PreAuthorize("hasRole('admin')")
@@ -29,6 +38,8 @@ public class DemoController {
     public Response admin(){
         return new Response("200","admin!");
     }
+
+
     //当用户具有select权限时才可以访问该方法
     @PreAuthorize("hasAuthority('select')")
     @RequestMapping("/select")
@@ -36,6 +47,8 @@ public class DemoController {
     public Response select(){
         return new Response("200","select");
     }
+
+
     //当用户具有insert权限时才可以访问该方法
     @PreAuthorize("hasAuthority('insert')")
     @RequestMapping("/insert")
@@ -43,6 +56,8 @@ public class DemoController {
     public Response insert(){
         return new Response("200","insert");
     }
+
+
     //当用户具有update权限时才可以访问该方法
     @PreAuthorize("hasAuthority('update')")
     @RequestMapping("/update")
@@ -50,6 +65,8 @@ public class DemoController {
     public Response update(){
         return new Response("200","update");
     }
+
+
     //如果访问需要登录的接口，如果用户还没登录就会跳转到这个接口
     @RequestMapping("/login_page")
     @ResponseBody
@@ -57,6 +74,7 @@ public class DemoController {
         Response response = new Response("-200","未登录！");
         return response;
     }
+
 
     @RequestMapping("/getUser")
     @ResponseBody
@@ -68,4 +86,6 @@ public class DemoController {
         User user = userService.findByName(userDetails.getUsername());
         return user;
     }
+
+
 }

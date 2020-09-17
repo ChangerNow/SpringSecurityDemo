@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)//开启基于方法的安全认证机制
-
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -50,6 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/getUser").hasAuthority("select") //当用户具有select权限时才可以访问这个方法
                 .anyRequest().authenticated()//其他的路径都是登录后才可访问
                 .and()
+
                 /*登录配置*/
                 .formLogin()
                 .loginPage("/login_page")//登录页，当未登录时会重定向到该页面
@@ -60,6 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordParameter("password")//默认的密码参数
                 .permitAll()
                 .and()
+
                 /*登出配置*/
                 .logout()
                 .permitAll()
@@ -77,7 +78,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     //密码加密配置
     @Bean
     public PasswordEncoder passwordEncoder() {
-
         return new BCryptPasswordEncoder();
     }
 
