@@ -1,4 +1,4 @@
-package com.security.demo.Security.custom;
+package com.security.demo.security.custom;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
@@ -16,11 +16,18 @@ import java.io.PrintWriter;
 @Component
 public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
     @Override
-    public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
-        httpServletResponse.setContentType("application/json;charset=utf-8");
-        PrintWriter out = httpServletResponse.getWriter();
+    public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+
+        //退出业务逻辑
+        response.setContentType("application/json;charset=utf-8");
+        PrintWriter out = response.getWriter();
         out.write("{\"status\":\"success\",\"msg\":\"退出成功\"}");
         out.flush();
         out.close();
+
+        // 重定向到登录页
+//        response.sendRedirect("/login");
+
     }
+
 }

@@ -1,4 +1,4 @@
-package com.security.demo.Security.utils;
+package com.security.demo.security.utils;
 import lombok.Data;
 /**
  * 描述：

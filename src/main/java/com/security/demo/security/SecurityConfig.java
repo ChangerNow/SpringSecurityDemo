@@ -1,9 +1,10 @@
-package com.security.demo.Security;
+package com.security.demo.security;
 
-import com.security.demo.Security.custom.*;
+import com.security.demo.security.custom.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -31,9 +32,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-
         //将自定的CustomUserDetailsService装配到AuthenticationManagerBuilder
-        auth.userDetailsService(customUserDetailsService).passwordEncoder(new CustomPasswordEncoder());
+        auth.authenticationProvider(authenticationProvider());
     }
 
 
@@ -61,10 +61,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
 
-                /*登出配置*/
+                /*登出配置(默认退出路径为 "/logout")*/
                 .logout()
                 .permitAll()
                 .logoutSuccessHandler(customLogoutSuccessHandler) //退出处理
+                .logoutSuccessUrl("/login")//退出成功跳转到登陆页
                 .and()
                 .exceptionHandling()
                 .accessDeniedHandler(customAccessDeniedHandler)  //无权限时的处理
@@ -75,10 +76,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable();
     }
 
+
+    //解决无法抛出UserNotFoundExceptions异常
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setHideUserNotFoundExceptions(false);
+        provider.setUserDetailsService(customUserDetailsService);
+        provider.setPasswordEncoder(passwordEncoder());
+        return provider;
+    }
+
     //密码加密配置
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+
+    public static void main(String[] args) {
+        System.out.println(new BCryptPasswordEncoder().encode("123456"));
     }
 
 }

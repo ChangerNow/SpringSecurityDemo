@@ -1,4 +1,4 @@
-package com.security.demo.Security.custom;
+package com.security.demo.security.custom;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -22,7 +22,8 @@ public class CustomAuthenticationFailHandler implements AuthenticationFailureHan
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
         httpServletResponse.setContentType("application/json;charset=utf-8");
         PrintWriter out = httpServletResponse.getWriter();
-        out.write("{\"status\":\"error\",\"msg\":\"登录失败\"}");
+//        out.write("{\"status\":\"error\",\"msg\":\"登录失败\"}");
+        out.write(e.getMessage());
         out.flush();
         out.close();
     }

@@ -1,4 +1,5 @@
-package com.security.demo.Security.custom;
+package com.security.demo.security.custom;
+
 import com.security.demo.Entity.Permission;
 import com.security.demo.Entity.Role;
 import com.security.demo.Entity.User;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,10 +50,10 @@ public class CustomUserDetailsService implements UserDetailsService {
         //把用户角色加到列表中
         role.forEach(role1 -> {
             //注意：添加角色的时候要在前面加ROLE_前缀
-            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_"+role1.getRole_name()));
+            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + role1.getRole_name()));
         });
 
         //创建并返回User对象，注意这里的User不是我们实体类里面的User
-        return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(), grantedAuthorities );
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
     }
 }

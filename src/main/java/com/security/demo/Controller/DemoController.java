@@ -1,7 +1,7 @@
 package com.security.demo.Controller;
 
 import com.security.demo.Entity.User;
-import com.security.demo.Security.utils.Response;
+import com.security.demo.security.utils.Response;
 import com.security.demo.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
